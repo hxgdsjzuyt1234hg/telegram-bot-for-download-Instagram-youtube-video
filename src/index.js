@@ -2,22 +2,14 @@ import { Telegraf, Context, Markup, session } from "telegraf";
 import * as ytdl from "ytdl-core";
 import { createWriteStream, unlinkSync, promises as fsPromises } from "fs";
 import { resolve } from "path";
-import { getInstagramDownloadLink } from "./utils/getInstagramVideo";
+import { getInstagramDownloadLink } from "./utils/getInstagramVideo.js";
 
 // Replace with your bot token and channel usernames
 const BOT_TOKEN = "7963707647:AAEnsNEurz2B6d52Eqiyx94dUWz7uNmlzjQ";
 const CHANNEL_1 = "@mydemochannel001"; // https://t.me/mydemochannel001
 const CHANNEL_2 = "@mydemochannel002"; // https://t.me/mydemochannel002
 
-interface MySession {
-  url: string;
-}
-
-interface MyContext extends Context {
-  session: MySession;
-}
-
-const bot = new Telegraf<MyContext>(BOT_TOKEN);
+const bot = new Telegraf(BOT_TOKEN);
 
 // Middleware to handle sessions
 bot.use(session());
@@ -29,7 +21,7 @@ bot.use(async (ctx, next) => {
 });
 
 // Check if user is a member of both channels
-async function checkMembership(ctx: Context): Promise<boolean> {
+async function checkMembership(ctx) {
   try {
     const userId = ctx.from?.id;
 
@@ -44,7 +36,7 @@ async function checkMembership(ctx: Context): Promise<boolean> {
     const isMember2 = ["member", "administrator", "creator"].includes(member2.status);
 
     return (isMember1 && isMember2);
-  } catch (error: any) {
+  } catch (error) {
     console.error("Membership check error:", error.message);
     return false;
   }
@@ -75,12 +67,12 @@ bot.on("message", async (ctx, next) => {
 });
 
 // Show options to join channel
-async function showChannelOptions(ctx: Context) {
+async function showChannelOptions(ctx) {
   await ctx.reply(`To use this bot, please join the following channels:\n\n1. [Channel 1](${CHANNEL_1})\n2. [Channel 2](${CHANNEL_2})`);
 }
 
 // Show options for YouTube and Instagram
-async function showOptions(ctx: Context) {
+async function showOptions(ctx) {
   await ctx.reply("What would you like to download?", {
     ...Markup.inlineKeyboard([
       [Markup.button.callback("Download YouTube Videos", "youtube")],
@@ -136,7 +128,7 @@ bot.action("instagram", async (ctx) => {
 });
 
 // Ensure the downloads directory exists and return its resolved path
-async function ensureDownloadsDirectory(): Promise<string> {
+async function ensureDownloadsDirectory(){
   const downloadsPath = resolve("./downloads");
 
   try {
