@@ -5,7 +5,7 @@ import { resolve } from "path";
 import { getInstagramDownloadLink } from "./utils/getInstagramVideo.js";
 
 // Replace with your bot token and channel usernames
-const BOT_TOKEN = "7963707647:AAEnsNEurz2B6d52Eqiyx94dUWz7uNmlzjQ";
+const BOT_TOKEN = "7764447636:AAEmTyPJOap5uG3ZRAdhQq6LIcfchEdwbes";
 const CHANNEL_1 = "@mydemochannel001"; // https://t.me/mydemochannel001
 const CHANNEL_2 = "@mydemochannel002"; // https://t.me/mydemochannel002
 
